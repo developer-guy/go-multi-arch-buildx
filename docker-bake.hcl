@@ -6,7 +6,12 @@ variable "TAG" {
   default = "v0.0.0"
 }
 
+target "tag" {
+  tags = ["devopps/hello-world-buildx:${TAG}"]
+}
+
 target "_common" {
+  inherits = ["tag"]
   args = {
     GO_VERSION = GO_VERSION
     BUILDKIT_CONTEXT_KEEP_GIT_DIR = 1
@@ -16,10 +21,6 @@ target "_common" {
 
 group "default" {
   targets = ["image"]
-}
-
-target "tag" {
-  tags = ["devopps/hello-world-buildx:${TAG}"]
 }
 
 target "image" {
@@ -32,9 +33,6 @@ target "image" {
    "org.opencontainers.image.title"= "hello-world-buildx"
    "org.opencontainers.image.ref" = "https://github.com/foo/myapp"
  }
- tags = [
-   "devopps/hello-world-buildx:bake"
- ]
  output = ["type=registry"]
 }
 
