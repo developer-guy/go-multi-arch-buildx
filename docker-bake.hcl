@@ -14,10 +14,11 @@ target "image" {
  inherits = ["tag"]
  context = "."
  dockerfile = "Dockerfile"
- cache-from = ["type=registry,ref=devopps/hello-world-buildx:latest"] 
- cache-to = ["type=registry,ref=devopps/hello-world-build:latest"]
+ cache-from = ["type=registry,ref=devopps/hello-world-buildx:latest"]
+ cache-to = ["type=inline"]
  labels = {
-   "org.opencontainers.image.title" = "hello-world-buildx"
+   "org.opencontainers.image.title"= "hello-world-buildx"
+   "org.opencontainers.image.ref" = "https://github.com/foo/myapp"
  }
  tags = [
    "devopps/hello-world-buildx:bake"
