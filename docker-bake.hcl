@@ -1,9 +1,21 @@
-group "default" {
-  targets = ["image"]
+variable "GO_VERSION" {
+  default = "1.18"
 }
 
 variable "TAG" {
   default = "v0.0.0"
+}
+
+target "_common" {
+  args = {
+    GO_VERSION = GO_VERSION
+    BUILDKIT_CONTEXT_KEEP_GIT_DIR = 1
+  }
+}
+
+
+group "default" {
+  targets = ["image"]
 }
 
 target "tag" {
@@ -11,7 +23,7 @@ target "tag" {
 }
 
 target "image" {
- inherits = ["tag"]
+ inherits = ["_common", "tag"]
  context = "."
  dockerfile = "Dockerfile"
  cache-from = ["type=registry,ref=devopps/hello-world-buildx:latest"]
