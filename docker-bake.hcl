@@ -18,13 +18,15 @@ target "_common" {
   }
 }
 
+// docker-bake.hcl
+target "docker-metadata-action" {}
 
 group "default" {
   targets = ["image"]
 }
 
 target "image" {
- inherits = ["_common", "tag"]
+ inherits = ["_common", "docker-metadata-action", "tag"]
  context = "."
  dockerfile = "Dockerfile"
  cache-from = ["type=registry,ref=devopps/hello-world-buildx:latest"]
