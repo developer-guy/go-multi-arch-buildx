@@ -3,7 +3,7 @@ variable "GO_VERSION" {
 }
 
 variable "TAG" {
-  default = "v0.0.0"
+  default = "latest"
 }
 
 target "_common" {
@@ -14,7 +14,9 @@ target "_common" {
 }
 
 // docker-bake.hcl
-target "docker-metadata-action" {}
+target "docker-metadata-action" {
+  tags = ["devopps/hello-world-buildx:${TAG}"]
+}
 
 group "default" {
   targets = ["image"]
@@ -24,7 +26,7 @@ target "image" {
  inherits = ["_common", "docker-metadata-action"]
  context = "."
  dockerfile = "Dockerfile"
- cache-from = ["type=registry,ref=devopps/hello-world-buildx:latest"]
+ cache-from = ["type=registry,ref=${GITHUB_REPOSITORY_OWNER}/hello-world-buildx:latest"]
  cache-to = ["type=inline"]
  labels = {
    "org.opencontainers.image.title"= "hello-world-buildx"
