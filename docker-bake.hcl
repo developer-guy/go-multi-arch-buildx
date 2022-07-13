@@ -26,7 +26,7 @@ group "default" {
 }
 
 target "image" {
- inherits = ["_common", "docker-metadata-action", "tag"]
+ inherits = ["_common", "tag", "docker-metadata-action"]
  context = "."
  dockerfile = "Dockerfile"
  cache-from = ["type=registry,ref=devopps/hello-world-buildx:latest"]
