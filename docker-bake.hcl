@@ -6,6 +6,10 @@ variable "TAG" {
   default = "latest"
 }
 
+variable "GITHUB_REPOSITORY_OWNER" {
+  default = "unknown"
+}
+
 target "_common" {
   args = {
     GO_VERSION = GO_VERSION
