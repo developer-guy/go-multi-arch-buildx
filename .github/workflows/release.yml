@@ -18,21 +18,6 @@ jobs:
         with:
           fetch-depth: 0
       -
-        name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: |
-            ${{ env.GHCR_SLUG }}
-          tags: |
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=ref,event=pr
-            type=edge
-          labels: |
-            org.opencontainers.image.title=hello-world-buildx
-            org.opencontainers.image.vendor=${{ github.repository_owner }}
-      -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       -
@@ -48,6 +33,22 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            ${{ env.GHCR_SLUG }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=ref,event=pr
+            type=edge
+          labels: |
+            org.opencontainers.image.title=hello-world-buildx
+            org.opencontainers.image.vendor=${{ github.repository_owner }}
+
       -
         name: Build image
         uses: docker/bake-action@v2
