@@ -6,12 +6,7 @@ variable "TAG" {
   default = "v0.0.0"
 }
 
-target "tag" {
-  tags = ["devopps/hello-world-buildx:${TAG}"]
-}
-
 target "_common" {
-  inherits = ["tag"]
   args = {
     GO_VERSION = GO_VERSION
     BUILDKIT_CONTEXT_KEEP_GIT_DIR = 1
@@ -19,14 +14,16 @@ target "_common" {
 }
 
 // docker-bake.hcl
-target "docker-metadata-action" {}
+target "docker-metadata-action" {
+  tags = ["devopps/hello-world-buildx:${TAG}"]
+}
 
 group "default" {
   targets = ["image"]
 }
 
 target "image" {
- inherits = ["_common", "tag", "docker-metadata-action"]
+ inherits = ["_common", "docker-metadata-action"]
  context = "."
  dockerfile = "Dockerfile"
  cache-from = ["type=registry,ref=devopps/hello-world-buildx:latest"]
