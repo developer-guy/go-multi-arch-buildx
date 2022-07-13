@@ -14,9 +14,7 @@ target "_common" {
 }
 
 // docker-bake.hcl
-target "docker-metadata-action" {
-  tags = ["devopps/hello-world-buildx:${TAG}"]
-}
+target "docker-metadata-action" {}
 
 group "default" {
   targets = ["image"]
